@@ -57,3 +57,12 @@ ALTER TABLE `gebied` ADD `kaartloc` VARCHAR( 15 ) NOT NULL;
 
 -- Banner keuze bij pagina
 ALTER TABLE `pagina` ADD `banner` BOOL NOT NULL AFTER `tekst`;
+
+-- Issue 8
+ALTER TABLE `spel_duur` rename opkomst_duur;
+
+-- Bijlage tabel gaat niet meer met blobs
+ALTER TABLE `bijlage` DROP `type` , DROP `file` ;
+
+-- Issue #18
+ALTER TABLE `spellokatie` CHANGE `naam` `naam` VARCHAR( 64 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;

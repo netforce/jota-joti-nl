@@ -3,7 +3,7 @@
     class Overzicht_model extends CI_Model{
         
 		public function get_spelen($speltak, $duur){
-			$this->db->select('spel.id, gebied.id AS gebied, spel.titel, spel.omschrijving, spel.voorbereiding, spel.beschrijving, spel.duur, spel.min_spelers, spel.max_spelers, spel.leiding, spel.jota, spel.joti');
+			$this->db->select('spel.id, gebied.id AS gebied, spel.titel, spel.omschrijving, spel.voorbereiding, spel.beschrijving, spel.copyright, spel.duur, spel.min_spelers, spel.max_spelers, spel.leiding, spel.jota, spel.joti, spel.wincode');
 			$this->db->from('spel');
 			
 			// Joins voor bepaling speltak.
@@ -12,8 +12,8 @@
 			$this->db->join('speltak', 'gebied.speltak_id = speltak.id');
 
 			// Joins voor bepaling totale programmaduur.
-			$this->db->join('spel_duur', 'spel.id = spel_duur.spel_id');
-			$this->db->join('duur', 'spel_duur.duur_id = duur.id');
+			$this->db->join('opkomst_duur', 'spel.id = opkomst_duur.spel_id');
+			$this->db->join('duur', 'opkomst_duur.duur_id = duur.id');
 
 			// Controleer of er een speltak, of alles opgevraagd word.
 			if ($speltak != 'alles') {
@@ -27,6 +27,16 @@
 
 			// Zorg ervoor dat elk spel maar 1 keer voorkomt.
 			$this->db->group_by('spel.id');
+
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
+		public function get_spel($id){
+			$this->db->select('spel.id, spel.titel, spel.omschrijving, spel.voorbereiding, spel.beschrijving, spel.copyright, spel.duur as spelduur, spel.min_spelers, spel.max_spelers, spel.leiding, spel.jota, spel.joti');
+			$this->db->from('spel');
+
+			$this->db->where('spel.id', $id);
 
 			$query = $this->db->get();
 			return $query->result_array();
@@ -56,20 +66,30 @@
 			$query = $this->db->get();
 			return $query->result_array();			
 		}
+
+		public function get_speltakken() {
+			$this->db->select('speltak.id, speltak.naam');
+			$this->db->from('speltak');
+			$this->db->order_by('speltak.id');
+
+			$query = $this->db->get();
+			return $query->result_array();
+		}
 		
 		public function get_duur($speltak){
-			$this->db->select('duur.id, duur.lengte');
+			$this->db->select('duur.id, duur.lengte, count(duur.lengte) AS aantal');
 			$this->db->from('duur');
 
 			// Bepalen speltak
-			$this->db->join('spel_duur', 'spel_duur.duur_id = duur.id');
-			$this->db->join('spel_gebied', 'spel_duur.spel_id = spel_gebied.spel_id');
+			$this->db->join('opkomst_duur', 'opkomst_duur.duur_id = duur.id');
+			$this->db->join('spel_gebied', 'opkomst_duur.spel_id = spel_gebied.spel_id');
 			$this->db->join('gebied', 'spel_gebied.gebied_id = gebied.id');
 			$this->db->join('speltak', 'gebied.speltak_id = speltak.id');
 
 			$this->db->where('speltak.naam', $speltak);
 			$this->db->group_by('duur.lengte');
 			$this->db->order_by('duur.lengte');
+			$this->db->having('aantal > 0');
 
 			$query = $this->db->get();
 			return $query->result_array();			
@@ -95,13 +115,26 @@
 		}
 
 		public function get_artikelen($spelid) {
-			$this->db->select('spel_artikel.aantal, artikel.naam, artikel.naammv');
+			$this->db->select('spel_artikel.aantal, artikel.naam, artikel.naammv, artikel.id');
 			$this->db->from('spel_artikel');
 
 			$this->db->join('artikel', 'spel_artikel.artikel_id=artikel.id', 'right');
 			$this->db->where('spel_artikel.spel_id', $spelid);
 
 			$this->db->order_by('artikel.naam');
+
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
+		public function get_bijlagen($spelid) {
+			$this->db->select('bijlage.id, bijlage.omschrijving, bijlage.filename');
+			$this->db->from('spel_bijlage');
+
+			$this->db->join('bijlage', 'spel_bijlage.bijlage_id=bijlage.id', 'right');
+			$this->db->where('spel_bijlage.spel_id', $spelid);
+
+			$this->db->order_by('bijlage.filename');
 
 			$query = $this->db->get();
 			return $query->result_array();
@@ -115,6 +148,18 @@
 			$this->db->where('spel_spellokatie.spel_id', $spelid);
 
 			$this->db->order_by('spellokatie.naam');
+
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
+		public function get_spelbericht($speltak){
+			$this->db->select('bericht');
+			$this->db->from('spelberichten');
+			$this->db->join('speltak', 'spelberichten.speltak_id = speltak.id');
+			$this->db->where('speltak.naam', $speltak);
+			$this->db->where('van <= CURDATE()');
+			$this->db->where('tot > CURDATE()');
 
 			$query = $this->db->get();
 			return $query->result_array();

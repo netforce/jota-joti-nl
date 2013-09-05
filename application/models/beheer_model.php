@@ -31,10 +31,10 @@
 		}
 
 		public function get_duur(){
-			$this->db->select('duur.id, duur.lengte, count(spel_duur.spel_id) AS aantal');
+			$this->db->select('duur.id, duur.lengte, count(opkomst_duur.spel_id) AS aantal');
 			$this->db->from('duur');
 
-			$this->db->join('spel_duur', 'duur.id=spel_duur.duur_id', 'left');
+			$this->db->join('opkomst_duur', 'duur.id=opkomst_duur.duur_id', 'left');
 			$this->db->group_by('duur.lengte');
 
 			$this->db->order_by('duur.lengte');
@@ -91,7 +91,7 @@
 		}
 
 		public function get_spel($id){
-			$this->db->select('spel.id, spel.titel, spel.omschrijving, spel.voorbereiding, spel.beschrijving, spel.duur as spelduur, spel.min_spelers, spel.max_spelers, spel.leiding, spel.jota, spel.joti');
+			$this->db->select('spel.id, spel.titel, spel.omschrijving, spel.voorbereiding, spel.beschrijving, spel.copyright, spel.duur as spelduur, spel.min_spelers, spel.max_spelers, spel.leiding, spel.jota, spel.joti');
 			$this->db->from('spel');
 
 			$this->db->where('spel.id', $id);
@@ -111,10 +111,10 @@
 		}
 
 		public function get_spel_duur($spelid){
-			$this->db->select('spel_duur.duur_id');
-			$this->db->from('spel_duur');
+			$this->db->select('opkomst_duur.duur_id');
+			$this->db->from('opkomst_duur');
 
-			$this->db->where('spel_duur.spel_id', $spelid);
+			$this->db->where('opkomst_duur.spel_id', $spelid);
 
 			$query = $this->db->get();
 			return $query->result_array();
@@ -135,6 +135,20 @@
 			$this->db->from('spel_spellokatie');
 
 			$this->db->where('spel_spellokatie.spel_id', $spelid);
+
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
+		public function get_paginas($id = NULL){
+			$this->db->select('id, urlnaam, titel, tekst, banner, timestamp');
+			$this->db->from('pagina');
+
+			if (isset($id)) {
+				$this->db->where('id', $id);
+			} else {
+				$this->db->order_by('id');
+			}
 
 			$query = $this->db->get();
 			return $query->result_array();
@@ -169,7 +183,7 @@
 			$this->db->delete('spel_bijlage');
 
 			$this->db->where('spel_id', $id);
-			$this->db->delete('spel_duur');
+			$this->db->delete('opkomst_duur');
 
 			$this->db->where('spel_id', $id);
 			$this->db->delete('spel_gebied');
@@ -282,6 +296,7 @@
 				'omschrijving' => $this->input->post('omschrijving'),
 				'voorbereiding' => $this->input->post('voorbereiding'),
 				'beschrijving' => $this->input->post('beschrijving'),
+				'copyright' => $this->input->post('copyright'),
 				'duur' => $this->input->post('spelduur'),
 				'min_spelers' => $this->input->post('min_spelers'),
 				'max_spelers' => $this->input->post('max_spelers'),
@@ -306,7 +321,7 @@
 			// Dit is heel goor, maar wel gemakkelijk, aangezien 
 			// dit onderdeel niet intensief gebruikt word.
 			$this->db->where('spel_id', $this->input->post('spelid'));
-			$this->db->delete('spel_duur');
+			$this->db->delete('opkomst_duur');
 
 			// Hierna inserten we weer de data
 			$this->db->select('duur.id');
@@ -318,7 +333,7 @@
 				if ( $this->input->post('duur'.$item['id']) == '1') {
 					$data = array('spel_id' => $this->input->post('spelid'),
 						'duur_id' => $item['id']);
-					$this->db->insert('spel_duur', $data);
+					$this->db->insert('opkomst_duur', $data);
 				}
 			}
 
@@ -393,6 +408,19 @@
 			}
 
 			return $return;
+
+		}
+
+		public function opslaan_pagina() {
+			$data = array('urlnaam' => $this->input->post('urlnaam'),
+				'titel' => $this->input->post('titel'),
+				'tekst' => $this->input->post('tekst'),
+				'banner' => $this->input->post('banner')
+				);
+
+			//Update van de data.
+			$this->db->where('id', $this->input->post('paginaid'));
+			$this->db->update('pagina', $data);
 
 		}
     }
