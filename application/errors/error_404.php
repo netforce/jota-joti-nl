@@ -1,62 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>404 Page Not Found</title>
-<style type="text/css">
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-::selection{ background-color: #E13300; color: white; }
-::moz-selection{ background-color: #E13300; color: white; }
-::webkit-selection{ background-color: #E13300; color: white; }
+$CI =& get_instance();
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
+// Modellen laden.
+$CI->load->model('pagina_model');
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
+// -------------------------------------------------------------------------
+// Eerst een copie van de hook statistics draaien.
+// Kom er even niet uit hoe ik die vanuit hier kan aanroepen.
+// Dan maar een copie.
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
+		// Enable classes
+		$CI->load->library('user_agent');
+		$CI->load->helper('cookie');
 
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
+		// Tracking cookie goedzetten
+		if ($CI->input->cookie('jj_thema2') === FALSE ) {
+			$cookie_array = array (
+				'name' => 'jj_thema2',
+				'value' => $CI->session->userdata('session_id'),
+				'expire' => 94608000
+				);
+			$CI->input->set_cookie($cookie_array);
+			$tracking = $CI->session->userdata('session_id');
+		} else {
+			$tracking = $CI->input->cookie('jj_thema2');
+		}
 
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	-webkit-box-shadow: 0 0 8px #D0D0D0;
-}
+		// Alle data verzamelen
+		$data = array();
 
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
-</head>
-<body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
-	</div>
-</body>
-</html>
+		// Usergegevens
+		$data['user'] = $CI->session->userdata('uid');
+		$data['group'] = $CI->session->userdata('gid');
+		$data['session'] = $CI->session->userdata('session_id');
+		$data['tracking'] = $tracking;
+
+		// Browsergegevens
+		$data['agent'] = $CI->agent->agent_string();
+		$data['browser'] = $CI->agent->browser();
+		$data['version'] = $CI->agent->version();
+		$data['mobile'] = $CI->agent->mobile();
+		$data['robot'] = $CI->agent->robot();
+
+		// Clientgegevens
+		$data['ip'] = $CI->session->userdata('ip_address');
+		$data['platform'] = $CI->agent->platform();
+
+		// Referrer
+		$data['referrer'] = $CI->agent->referrer();
+
+		// Next up, we want to know what page we're on, use the router class
+		//$data['section'] = $CI->router->class;
+		//$data['action'] = $CI->router->method;
+
+		// We don't need it, but we'll log the URI just in case
+		$data['uri'] = uri_string();
+		$data['error_code'] = "404";
+
+		// And write it to the database
+		$CI->db->insert('statistics', $data);
+
+// -------------------------------------------------------------------------
+
+// Variabelen van de pagina zetten.
+$data['pagina'] = $CI->pagina_model->get_pagina('404');
+
+$data['page'] = 'geen';
+$data['titel'] = $data['pagina']['titel'];
+
+// Eerst de header laden.
+$CI->load->view('header_view', $data);
+            
+// Menu laden.
+$CI->load->view('menu_view', $data);
+
+// Pagina inhoud weergeven
+$CI->load->view('pagina_view', $data);
+                        
+// Als laatste de footer laden.
+$CI->load->view('footer_view', $data);
