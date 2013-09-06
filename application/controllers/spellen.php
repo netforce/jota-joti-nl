@@ -263,7 +263,10 @@
 
             // Pagina weergeven
             if ($speltak == 'scouts') {
-                $this->load->view('spellen_gebied_scouts_view', $data);
+                
+//                $this->load->view('spellen_gebied_scouts_view', $data);
+// Enable above for specific Scouts Logo Pages without Games
+                $this->load->view('spellen_gebied_view', $data);
             } else {
                 $this->load->view('spellen_gebied_view', $data);
             }

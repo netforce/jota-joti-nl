@@ -16,7 +16,8 @@
 				Hieronder vinden jullie het deelnemersgedeelte voor het online spelen. Voor het bekijken en/of downloaden van de spelen zelf, kijk in <a href='<?php echo base_url();?>info/pagina/leiding'>leiding</a>.
 			</div>
 
-			<?php if (($speltak == 'bevers') || ($speltak == 'welpen')) { ?>
+			<?php if (($speltak == 'bevers') || ($speltak == 'welpen') || ($speltak = 'scouts')) { ?>
+			<?php //if (($speltak == 'bevers') || ($speltak == 'welpen')) { ?>
 			<div>
 				<h4>Jota & Joti:</h4>
 				<ul>
@@ -61,7 +62,7 @@
 						<li><a href="<?php echo base_url();?>spellen/<?php echo $speltak;?>/web/<?php echo $opkomsttijd['lengte'];?>">Totale opkomstduur van <?php echo $opkomsttijd['lengte'];?> uur</a></li>
 					<?php }?>
 				</ul>
-			</div>
+            </div>
 			<?php } ?>
 
 		</div>
