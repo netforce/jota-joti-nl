@@ -32,3 +32,17 @@ body {
     top: 80px;
     width: 150px;
 }
+
+.evidence {
+	position:relative;
+    float:left;
+}
+.evidence .spelnaam {
+	position:absolute;
+	text-align:center;
+	color: black; 
+	left: 30px;
+	right: 20px;
+    top: 35px;
+    width: 150px;
+}

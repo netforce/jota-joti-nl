@@ -17,8 +17,14 @@
 	<?php if ($spel['gebied'] == $gebiednr) { ?>
 		<?php if ($i == 0) { ?>
 			<div class='row-fluid'>
+                <?php if ($speltak == 'scouts') { ?> 
+				<div class='span3 evidence'>
+                    <img src="<?php echo base_url();?>images/evidence.png">
+                <?php } else { ?>
 				<div class='span3 postit'>
-					<img src="<?php echo base_url();?>images/postit.png">
+                    <img src="<?php echo base_url();?>images/postit.png">
+                <?php } ?>
+                    
 					<a href="#spel<?php echo $spel['id']; ?>" data-toggle="modal"><div class='spelnaam'><h4><?php echo $spel['titel']; ?></h4></div></a>
 
 					<!-- Berichtenscherm -->
@@ -56,8 +62,13 @@
 				</div>
 			<?php $i++; ?>
 		<?php } elseif ($i == 3) { ?>
+                <?php if ($speltak == 'scouts') { ?> 
+				<div class='span3 evidence'>
+                    <img src="<?php echo base_url();?>images/evidence.png">
+                <?php } else { ?>
 				<div class='span3 postit'>
-					<img src="<?php echo base_url();?>images/postit.png">
+                    <img src="<?php echo base_url();?>images/postit.png">
+                <?php } ?>
 					<a href="#spel<?php echo $spel['id']; ?>" data-toggle="modal"><div class='spelnaam'><h4><?php echo $spel['titel']; ?></h4></div></a>
 
 					<!-- Berichtenscherm -->
@@ -96,8 +107,13 @@
 			</div>
 			<?php $i = 0; ?>
 		<?php } else { ?>
+                <?php if ($speltak == 'scouts') { ?> 
+				<div class='span3 evidence'>
+                    <img src="<?php echo base_url();?>images/evidence.png">
+                <?php } else { ?>
 				<div class='span3 postit'>
-					<img src="<?php echo base_url();?>images/postit.png">
+                    <img src="<?php echo base_url();?>images/postit.png">
+                <?php } ?>
 					<a href="#spel<?php echo $spel['id']; ?>" data-toggle="modal"><div class='spelnaam'><h4><?php echo $spel['titel']; ?></h4></div></a>
 
 					<!-- Berichtenscherm -->

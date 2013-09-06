@@ -25,6 +25,7 @@
 
         <!-- Java scripting -->
         <script src="<?php echo base_url();?>assets/jquery/jquery.js"></script>
+        <script src="<?php echo base_url();?>assets/jquery/tablesorter/jquery.tablesorter.js"></script>
         
         <script src="<?php echo base_url();?>assets/flot/excanvas.min.js"></script>
         <script src="<?php echo base_url();?>assets/flot/jquery.flot.js"></script>

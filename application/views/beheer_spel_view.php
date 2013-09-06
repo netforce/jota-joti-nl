@@ -1,3 +1,8 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#spellen_beheer").tablesorter();
+    }); 
+</script>
 <div class='container pagina'>
 	<div class='row-fluid tekst'>
 		<div class='span7 offset1'>
@@ -30,9 +35,10 @@
 	</div>
 
 
-	<div class='row-fluid'>
+    <div class='row-fluid'>
 		<div class='span10 offset1'>
-		<table class="table table-hover">
+		<!-- <table id="spellen_beheer" class="table table-hover tablesorter"> -->
+		<table id="spellen_beheer" class="table tablesorter">
         
         	<thead>
           		<tr>
