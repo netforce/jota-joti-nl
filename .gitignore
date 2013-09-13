@@ -11,3 +11,6 @@ pdf/*.pdf
 bijlagen/*
 !bijlagen/.htaccess
 !bijlagen/index.html
+
+# linux garbage achterwegen laten
+*.swp
