@@ -42,24 +42,29 @@
         
         	<thead>
           		<tr>
-            		<th></th>
+                    <th></th>
+                    <th>ID</th>
             		<th>Spelnaam</th>
             		<th>Speltak</th>
             		<th>Jota</th>
-            		<th>Joti</th>
+                    <th>Joti</th>
+<!--                    <th>Spelduur</th> -->
           		</tr>
 	        </thead>
 
-			<tbody>
+            <tbody>
+                <?php //var_dump($spelen); ?>
 				<?php foreach ($spelen as $spel) { ?>
 				<tr>
 					<td><a href="<?php echo base_url(); ?>beheer/spel/<?php echo $spel['id']; ?>" data-toggle="modal"><span class="badge badge-info"><i class="icon-pencil icon-white"></i></span></a>
 						<a href="<?php echo base_url(); ?>beheer/verwijder/spel/<?php echo $spel['id']; ?>"><span class="badge badge-important"><i class="icon-remove icon-white"></i></span></a>
-					</td>
+                    </td>
+                    <td><?php echo $spel['id'];?></td>
 					<td><?php echo $spel['titel'];?></td>
 					<td><?php if (isset($speltakken[$spel['id']])) { echo $speltakken[$spel['id']]; } else { echo "-"; }?></td>
 					<td><?php if ($spel['jota'] > 0) { ?><i class="icon-ok"></i><?php } ;?></td>
-					<td><?php if ($spel['joti'] > 0) { ?><i class="icon-ok"></i><?php } ;?></td>
+                    <td><?php if ($spel['joti'] > 0) { ?><i class="icon-ok"></i><?php } ;?></td>
+                    <td><?php //echo $spel['duur']; if ($spel['duur'] > 0) { ?><!-- <i class="icon-ok"></i> --><?php //} ;?></td>
 
 				</tr>
 				<?php } ?>

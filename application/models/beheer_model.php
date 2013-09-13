@@ -70,7 +70,7 @@
 		}
 		
 		public function get_spelen($search){
-			$this->db->select('spel.id, spel.titel, spel.jota, spel.joti');
+			$this->db->select('spel.id, spel.titel, spel.jota, spel.joti, spel.duur');
 			$this->db->from('spel');
 
 			$this->db->like('titel', $search);
@@ -79,6 +79,15 @@
 			return $query->result_array();
 		}
 
+		public function get_bijlagen(){
+			$this->db->select('bijlage.id, bijlage.omschrijving, bijlage.filename');
+			$this->db->from('bijlage');
+
+			$this->db->like('id');
+
+			$query = $this->db->get();
+			return $query->result_array();
+		}
 		public function get_spelen_speltakken(){
 			$this->db->select('spel_gebied.spel_id, speltak.naam');
 			$this->db->from('spel_gebied');
@@ -140,6 +149,16 @@
 			return $query->result_array();
 		}
 
+		public function get_spel_bijlagen($spelid){
+			$this->db->select('spel_bijlage.bijlage_id');
+			$this->db->from('spel_bijlage');
+
+			$this->db->where('spel_bijlage.spel_id', $spelid);
+
+			$query = $this->db->get();
+			return $query->result_array();
+        }
+
 		public function get_paginas($id = NULL){
 			$this->db->select('id, urlnaam, titel, tekst, banner, timestamp');
 			$this->db->from('pagina');
@@ -154,7 +173,17 @@
 			return $query->result_array();
 		}
 
-		public function verwijder_speltak($id) {
+		public function get_groepen($id){
+			$this->db->select('groep.id, groep.naam, groep.email, groep.jota, groep.joti');
+			$this->db->from('groep');
+
+			$this->db->where('groep.id', $id);
+
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
+        public function verwijder_speltak($id) {
 			$this->db->where('id', $id);
 			$this->db->delete('speltak');
 
@@ -171,6 +200,21 @@
 		public function verwijder_duur($id) {
 			$this->db->where('id', $id);
 			$this->db->delete('duur');
+
+			return;
+        }
+
+        public function verwijder_bijlage($id) {
+            $this->db->where('id', $id);
+            $this->db->delete('bijlage');
+
+            return;
+        
+		}
+        
+        public function verwijder_groep($id) {
+			$this->db->where('id', $id);
+			$this->db->delete('groep');
 
 			return;
 		}
@@ -258,6 +302,27 @@
 			return;
 		}
 
+		public function opslaan_groep() {
+            $data = array(
+                'groepid' => $this->input->post('groepid'),
+                'groepnaam' => $this->input->post('groepnaam'),
+                'groepemail' => $this->input->post('groepemail'),
+                'groepjota' => $this->input->post('groepjota'),
+                'groepjoti' => $this->input->post('groepjoti'));
+
+			// Eerst controleren of er moet worden geupdate, of geinsert.
+			if ($this->input->post('groepid')) {
+				//Update van de data.
+				$this->db->where('id', $this->input->post('groepid'));
+				$this->db->update('groep', $data);
+			} else {
+				// Inserten van data.
+                $this->db->insert('groep', $data);
+			}
+
+			return;
+        }
+
 		public function opslaan_spellokatie() {
 			$data = array('naam' => $this->input->post('spellokatie'));
 
@@ -289,6 +354,20 @@
 
 		}
 
+		public function opslaan_bijlage() {
+			$data = array('omschrijving' => $this->input->post('omschrijving'), 'filename' => $this->input->post('filename'));
+
+			// Eerst controleren of er moet worden geupdate, of geinsert.
+			if ($this->input->post('bijlageid')) {
+				//Update van de data.
+				$this->db->where('id', $this->input->post('bijlageid'));
+				$this->db->update('bijlage', $data);
+			} else {
+				// Inserten van data.
+				$this->db->insert('bijlage', $data);
+			}
+
+		}
 		public function opslaan_spel() {
 			// Speldata opslaan
 			$data = array(

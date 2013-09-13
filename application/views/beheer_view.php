@@ -59,6 +59,13 @@
             <?php } ?>
             <a href="<?php echo base_url();?>beheer/opties/duur">Duur</a>
           </li>
+          <?php if ($tab == "bijlagen"){ ?>
+          <li class="active">
+          <?php } else { ?>
+          <li>
+            <?php } ?>
+            <a href="<?php echo base_url();?>beheer/opties/bijlagen">Bijlagen</a>
+          </li>
 
           <li class="span2"></li>
           <li><button href="#nieuw" role="button" class="btn btn-primary" data-toggle="modal">Nieuw</button></li>
@@ -163,8 +170,7 @@
           </form>
         </div>
 
-
-    <?php // Gebieden tabblad. ?>
+Bestandsnaamphp // Gebieden tabblad. ?>
     <?php } elseif ($tab == "gebieden") { ?>
 
       <table class="table table-hover">
@@ -523,6 +529,99 @@
           </form>
         </div>
 
+    <?php // Spellokaties tabblad ?>
+    <?php } elseif ($tab == "bijlagen") { ?>
+
+      <table class="table table-hover">
+        
+        <thead>
+          <tr>
+            <th class="span2"></th>
+            <th>Bijlagen</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <?php foreach ($bijlagen as $bijlage) { ?>
+          <tr>
+            <td><a href="#veranderbijlage<?php echo $bijlage['id']; ?>" data-toggle="modal"><span class="badge badge-info"><i class="icon-pencil icon-white"></i></span></a>
+               <!-- Commented out the chech for "being in use" for now --> 
+                <?php //if (!$bijlage['aantal']) { ?>
+                <a href="<?php echo base_url(); ?>beheer/verwijder/bijlage/<?php echo $bijlage['id']; ?>"><span class="badge badge-important"><i class="icon-remove icon-white"></i></span></a>
+                <?php //} else { ?>
+                <!-- <span class="badge"><i class="icon-remove icon-white"></i></span> -->
+                <?php //} ?>
+
+                <?php // De overlay voor het toevoegen van nieuwe bijlagen. ?>
+                <div id="veranderbijlage<?php echo $bijlage['id']; ?>" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h3 id="myModalLabel">Verander bijlage</h3>
+                </div>
+                <?php $attributes = array('class' => 'form-horizontal');
+                      echo form_open('beheer/opslaan/'.$tab, $attributes); ?>
+                <div class="modal-body">
+                  <p>Verander bijlage</p>
+
+                  <div class="control-group">
+                    <label class="control-label" for="bijlage">Bijlage:</label>
+                      <div class="controls">
+                        <input type="text" id="omschrijving" name="omschrijving" placeholder="omschrijving" value="<?php echo $bijlage['omschrijving']; ?>">
+                      </div>
+                    <label class="control-label" for="filename">Bestandsnaam:</label>
+                      <div class="controls">
+                        <input type="text" id="filename" name="filename" placeholder="Bestandsnaam" value="<?php echo $bijlage['filename']; ?>">
+                        <input type="hidden" id="bijlageid" name="bijlageid" value="<?php echo $bijlage['id']; ?>">
+                      </div>
+
+                  </div>
+
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button type="submit" class="btn btn-primary">Opslaan</button>
+                  </div>
+
+                </form>
+
+                </td>
+            <td><?php echo $bijlage['omschrijving'];?></td>
+            <td><?php echo $bijlage['filename'];?></td>
+          </tr>
+          <?php } ?>
+        </tbody>
+      </table>
+
+        <?php // De overlay voor het toevoegen van nieuwe speltakken. ?>
+        <div id="nieuw" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 id="myModalLabel">Nieuwe bijlage</h3>
+          </div>
+          <?php $attributes = array('class' => 'form-horizontal');
+                echo form_open('beheer/opslaan/'.$tab, $attributes); ?>
+            <div class="modal-body">
+              <p>Nieuwe bijlage</p>
+
+              <div class="control-group">
+                <label class="control-label" for="spellokatie">Omschrijving:</label>
+                  <div class="controls">
+                    <input type="text" id="omschrijving" name="omschrijving" placeholder="Bijlage Omschrijving">
+                  </div>
+                <label class="control-label" for="spellokatie">Bestandsnaam:</label>
+                  <div class="controls">
+                    <input type="text" id="filename" name="filename" placeholder="Bestandsnaam">
+                  </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+              <button type="submit" class="btn btn-primary">Opslaan</button>
+            </div>
+
+          </form>
+        </div>
     <?php } ?>
 
     </div>

@@ -80,11 +80,14 @@
                                 <li class="divider"></li>
                                 <li><a tabindex="-1" href="<?php echo base_url();?>beheer/spel">Spelen</a></li>
                                 <li><a tabindex="-1" href="<?php echo base_url();?>beheer">Onderdelen</a></li>
+                                <li><a tabindex="-1" href="<?php echo base_url();?>beheer/bijlagen">Bijlagen</a></li>
                             <?php } ?>
 
                             <?php if ($this->session->userdata('pagina')) { ?>
                                 <li class="divider"></li>
                                 <li><a tabindex="-1" href="<?php echo base_url();?>beheer/pagina">Pagina's</a></li>
+                                <li><a tabindex="-1" href="<?php echo base_url();?>beheer/groepen">Groepen</a></li>
+                                
                             <?php } ?>
                         </ul>
                     </li>

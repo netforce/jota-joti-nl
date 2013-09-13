@@ -35,7 +35,10 @@
                 $data['spellokaties'] = $this->beheer_model->get_spellokaties();
             } elseif ($tab == 'artikelen') {
                 $data['artikelen'] = $this->beheer_model->get_artikelen();
+            } elseif ($tab == 'bijlagen') {
+                $data['bijlagen'] = $this->beheer_model->get_bijlagen();
             }
+
 
             // Variabelen goedzetten
             $data['page'] = 'beheer';
@@ -205,6 +208,11 @@
                 $this->beheer_model->verwijder_spellokatie($id);
 
                 redirect('beheer/opties/spellokaties');
+            } elseif ($item == 'bijlagen') {
+                // bijlagen verwijderen
+                $this->beheer_model->verwijder_bijlage($id);
+
+                redirect('beheer/spel');
             } elseif ($item == 'spel') {
                 // Spellokatie verwijderen
                 $this->beheer_model->verwijder_spel($id);
@@ -287,6 +295,18 @@
                 $this->session->set_flashdata('submit', true);
 
                 redirect('beheer/spel/'.$this->input->post('spelid'));
+            } elseif ($item == 'bijlage') {
+
+                // Controle rollen
+                if(! $this->session->userdata('bijlage')){
+                    show_404();
+                }
+
+                // item aanpassen
+                $this->beheer_model->opslaan_bijlage();
+                $this->session->set_flashdata('submit', true);
+
+                redirect('beheer/opties/bijlagen/'.$this->input->post('bijlageid'));
             } elseif ($item == 'pagina') {
                 // Controle rollen
                 if(! $this->session->userdata('pagina')){
