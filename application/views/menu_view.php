@@ -27,8 +27,7 @@
                     <?php } ?>
                     <a href="<?php echo base_url();?>info/pagina/uitleg">Uitleg</a></li>
                     
-                    <?php if ($page == "spellen" || $page == "twitterhike" || $page == "scouts"){ ?>
-                    <?php //if ($page == "spellen" || $page == "twitterhike" ){ ?>
+                    <?php if ($page == "spellen" || $page == "explorers" || $page == "scouts"){ ?>
                     <li class="dropdown active">
                     <?php } else { ?>
                     <li class="dropdown">
@@ -38,8 +37,7 @@
 							<li><a tabindex="-1" href="<?php echo base_url();?>spellen/bevers/">Bevers</a></li>
                             <li><a tabindex="-1" href="<?php echo base_url();?>spellen/welpen/">Welpen</a></li>
                             <li><a tabindex="-1" href="<?php echo base_url();?>spellen/scouts/">Scouts</a></li>
-                            <li><a tabindex="-1" href="<?php echo base_url();?>info/pagina/twitterhike">Explorers</a></li>
-                            <li><a tabindex="-1" href="<?php echo base_url();?>info/pagina/twitterhike">Roverscouts</a></li>
+                            <li><a tabindex="-1" href="<?php echo base_url();?>spellen/explorers">Explorers</a></li>
 						</ul>
 					</li>
 
