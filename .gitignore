@@ -7,10 +7,5 @@ application/config/config.php
 # PDF's welke in de cache zitten mogen niet meegenomen worden.
 pdf/*.pdf
 
-# Alle bijlages mogen niet worden meegenomen
-bijlagen/*
-!bijlagen/.htaccess
-!bijlagen/index.html
-
 # linux garbage achterwegen laten
 *.swp
