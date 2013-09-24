@@ -27,7 +27,7 @@
                     <?php } ?>
                     <a href="<?php echo base_url();?>info/pagina/uitleg">Uitleg</a></li>
                     
-                    <?php if ($page == "spellen" || $page == "explorers" || $page == "scouts"){ ?>
+                    <?php if ($page == "spellen" || $page == "scouts" || $page == "explorers" ){ ?>
                     <li class="dropdown active">
                     <?php } else { ?>
                     <li class="dropdown">
@@ -37,7 +37,7 @@
 							<li><a tabindex="-1" href="<?php echo base_url();?>spellen/bevers/">Bevers</a></li>
                             <li><a tabindex="-1" href="<?php echo base_url();?>spellen/welpen/">Welpen</a></li>
                             <li><a tabindex="-1" href="<?php echo base_url();?>spellen/scouts/">Scouts</a></li>
-                            <li><a tabindex="-1" href="<?php echo base_url();?>spellen/explorers">Explorers</a></li>
+                            <li><a tabindex="-1" href="<?php echo base_url();?>spellen/explorers/">Explorers</a></li>
 						</ul>
 					</li>
 
@@ -125,8 +125,13 @@
                     <?php } ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login</a>
                         <ul class="dropdown-menu" role="menu">
+<<<<<<< HEAD
                            <!-- <li><a tabindex="-1" href="<?php echo base_url();?>login/groep">Groepen</a></li> -->
                             <li><a tabindex="-1" href="<?php echo base_url();?>login/persoon">Personen</a></li>
+=======
+                            <li><a tabindex="-1" href="<?php echo base_url();?>login/groep">Groepen</a></li>
+                            <!-- <li><a tabindex="-1" href="<?php echo base_url();?>login/persoon">Personen</a></li> -->
+>>>>>>> 7d0d57a4ca6cc183c736e0ead5dc9b27761c7e1a
                         </ul>
                     </li>
                     
