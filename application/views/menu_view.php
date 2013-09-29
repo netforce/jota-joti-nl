@@ -125,17 +125,8 @@
                     <?php } ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login</a>
                         <ul class="dropdown-menu" role="menu">
-<<<<<<< HEAD
-<<<<<<< HEAD
                            <!-- <li><a tabindex="-1" href="<?php echo base_url();?>login/groep">Groepen</a></li> -->
-=======
-<!--                            <li><a tabindex="-1" href="<?php echo base_url();?>login/groep">Groepen</a></li>-->
->>>>>>> 9f3fd149a229fc9df8401a106e6536c4ac3866d2
                             <li><a tabindex="-1" href="<?php echo base_url();?>login/persoon">Personen</a></li>
-=======
-                            <li><a tabindex="-1" href="<?php echo base_url();?>login/groep">Groepen</a></li>
-                            <!-- <li><a tabindex="-1" href="<?php echo base_url();?>login/persoon">Personen</a></li> -->
->>>>>>> 7d0d57a4ca6cc183c736e0ead5dc9b27761c7e1a
                         </ul>
                     </li>
                     
