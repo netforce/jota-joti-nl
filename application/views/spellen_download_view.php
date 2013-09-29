@@ -21,18 +21,12 @@
 					<?php foreach ($duur[$speltak['naam']] as $opkomsttijd) { ?>
 						<li><a href="<?php echo base_url();?>spellen/<?php echo $speltak['naam'];?>/pdf/<?php echo $opkomsttijd['lengte'];?>">Totale opkomstduur van <?php echo $opkomsttijd['lengte'];?> uur</a></li>
 					<?php }?>
-                </ul>
+				</ul>
 			</div>
-            
+
 			<?php } ?>
 
-           <h4>Eindspellen</h4>
-            Dit zijn de filmpjes voor de eindspellen voor offline gebruik.
-            <ul>
-             <li><a href="<?php echo base_url();?>bijlage/download/73">Bevers</li> 
-             <li><a href="<?php echo base_url();?>bijlage/download/74">Welpen</li> 
-            </ul>    
-    </div>
+		</div>
 
 		<div class='span2'>
            	<img src="<?php echo base_url();?>images/george_staat.png">
